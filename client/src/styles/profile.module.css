@@ -1,0 +1,6 @@
+.profile {
+  display: grid;
+  grid-template-columns: 35rem auto 45rem;
+  gap: 1.5rem;
+  padding: 1.5rem 1.5rem 0px 1.5rem;
+}
