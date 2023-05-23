@@ -3,11 +3,16 @@ import styles from "../styles/findfriend.module.css";
 import Image from "next/image";
 import { profile } from "../../public/Images";
 import { getUsers } from "@/redux/API/authrequest";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { followUpdate } from "@/redux/API/userrequest";
+import { getProfile } from "@/redux/action/useraction";
 
 const Findfriend = () => {
   const [users, setusers] = useState("");
   const user = useSelector((state) => state.auth.user);
+  const isLoading = useSelector((state) => state.auth.isLoading);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getAllUsers = async () => {
@@ -22,16 +27,27 @@ const Findfriend = () => {
     getAllUsers();
   }, []);
 
+  const handleSubmit = (friendId) => async (e) => {
+    e.preventDefault();
+    const ids = {
+      profileId: user._id,
+      friendId: friendId,
+    };
+    await followUpdate(ids);
+    dispatch(getProfile(user._id));
+  };
+
   return (
     <div className={styles.findfriend}>
       <h3>People you may know</h3>
       {users &&
         users.map((data) => {
           return (
-            <div className={styles.friendinfo}>
+            <div className={styles.friendinfo} key={data._id}>
               <div className={styles.flexseting}>
                 <Image
                   src={profile}
+                  alt="Image not found"
                   style={{ width: "50px", height: "50px", borderRadius: "50%" }}
                 ></Image>
                 <div className={styles.nameinfo}>
@@ -42,7 +58,16 @@ const Findfriend = () => {
                 </div>
               </div>
 
-              <button>Follow</button>
+              <button
+                onClick={handleSubmit(data._id)}
+                style={
+                  user.following.includes(data._id)
+                    ? { background: "green" }
+                    : { background: " var(--buttonBg)" }
+                }
+              >
+                {user.following.includes(data._id) ? "Following" : "Follow"}
+              </button>
             </div>
           );
         })}

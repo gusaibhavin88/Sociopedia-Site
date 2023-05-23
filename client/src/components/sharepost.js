@@ -14,6 +14,7 @@ const Sharepost = () => {
       <div className={styles.inputbar}>
         <Image
           src={profile}
+          alt="Image not found"
           style={{
             width: "50px",
             height: "50px",

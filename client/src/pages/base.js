@@ -9,6 +9,7 @@ const Base = ({ Component, pageProps }) => {
   const router = useRouter();
   const user = useSelector((state) => state.auth.user);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const isLoading = useSelector((state) => state.auth.isLoading);
 
   useEffect(() => {
     if (user) {
@@ -30,7 +31,6 @@ const Base = ({ Component, pageProps }) => {
         className={styles.backfade}
         style={{ top: "36%", left: "-8rem" }}
       ></div>
-
       <Component {...pageProps} />
     </div>
   );

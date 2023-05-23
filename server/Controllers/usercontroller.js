@@ -40,7 +40,6 @@ export const deleteUser = async (req, resp) => {
 
 export const getAllUser = async (req, resp) => {
   const users = await Usermodel.find();
-  console.log(users);
 
   const allUsers = users.map((user) => {
     const { password, ...otherdetails } = user._doc;
@@ -97,16 +96,28 @@ export const followUser = async (req, resp) => {
   try {
     const profileAcc = await Usermodel.findById(profileId);
     const friendAcc = await Usermodel.findById(friendId);
-    if (profileAcc.followers.includes(friendId)) {
-      profileAcc.followers.pull(friendId);
-      friendAcc.following.pull(friendId);
+    if (profileAcc.following.includes(friendId)) {
+      profileAcc.following.pull(friendId);
+      friendAcc.followers.pull(profileId);
     } else {
-      profileAcc.followers.push(friendId);
-      friendAcc.following.push(friendId);
+      profileAcc.following.push(friendId);
+      friendAcc.followers.push(profileId);
     }
     await profileAcc.save();
+    await friendAcc.save();
     resp.status(200).json({ user: profileAcc });
   } catch (error) {
     resp.status(500).json({ success: false, message: error.message });
   }
 };
+
+// Upload Image
+
+// export const uploadImage = async (req, resp) => {
+//   const file = req.files.file;
+//   try {
+//     resp.status(200).json({ success: true, message: "Uploaded success FUlly" });
+//   } catch (error) {
+//     resp.status(500).json({ success: false, message: error.message });
+//   }
+// };

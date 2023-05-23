@@ -40,12 +40,15 @@ const userSchema = mongoose.Schema({
   country: String,
   worksAt: String,
   relationship: String,
+  profileUrl: String,
+  coverUrl: String,
   followers: [],
   following: [],
 });
 
 //This is for bcrpt the password
 userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
   const salt = await bcrypt.genSalt(10);
   const hashedpassword = await bcrypt.hash(this.password, salt);
   this.password = hashedpassword;

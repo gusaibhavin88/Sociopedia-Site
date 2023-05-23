@@ -6,6 +6,8 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import Authrouter from "./Router/authrouter.js";
 import Userrouter from "./Router/userrouter.js";
+import Uploadrouter from "./Router/uploadrouter.js";
+import cloudinary from "cloudinary";
 
 const app = express();
 
@@ -19,6 +21,14 @@ app.use(cors());
 app.use(cookieParser());
 dotenv.config();
 
+// Configure Cloudinary credentials
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+});
+
+// Connecting to database
 mongoose
   .connect(process.env.dbURI, {
     useNewUrlParser: true,
@@ -31,10 +41,12 @@ mongoose
     console.error("Error connecting to MongoDB:", err.message);
   });
 
+// Start the server
 app.listen(process.env.PORT, () => {
   console.log(`Server running on port ${process.env.PORT}`);
 });
 
-// handle incoming POST requests
+// handle incoming requests
 app.use("/auth", Authrouter);
 app.use("/user", Userrouter);
+app.use("/upload", Uploadrouter);

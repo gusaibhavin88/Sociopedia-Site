@@ -60,7 +60,11 @@ const Auth = () => {
   return (
     <div className={styles.auth}>
       <div className={styles.authleft}>
-        <Image src={logo} className={styles.authleftimage} />
+        <Image
+          src={logo}
+          alt="Image not found"
+          className={styles.authleftimage}
+        />
         <div className={styles.sitename}>
           <h1>Sociopedia</h1>
           <h3>Explore the ideas throughout the world</h3>

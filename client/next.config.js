@@ -4,6 +4,7 @@ const nextConfig = {
   images: {
     domains: ["fontawesome.com"],
     domains: ["http://localhost:5001"],
+    domains: ["res.cloudinary.com"],
   },
 };
 

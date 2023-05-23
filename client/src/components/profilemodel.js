@@ -1,18 +1,23 @@
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button, Group } from "@mantine/core";
 import styles from "../styles/profilemodel.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { updateUser } from "@/redux/API/userrequest";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { getProfile } from "@/redux/action/useraction";
+import { uploadImage } from "@/redux/API/uploadrequest";
 
 function ProfileModel(props) {
   const user = useSelector((state) => state.auth.user);
+  const [profileImage, setprofileImage] = useState("");
+  const [coverImage, setcoverImage] = useState("");
   const dispatch = useDispatch();
-  console.log(user);
   const router = useRouter();
   const { id } = router.query;
+
+  useEffect(() => {}, [user]);
+
   const [modeldata, setmodeldata] = useState({
     _id: user._id,
   });
@@ -21,13 +26,66 @@ function ProfileModel(props) {
     setmodeldata({ ...modeldata, [e.target.name]: e.target.value });
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   await updateUser(id, modeldata);
+  //   dispatch(getProfile(user._id));
+  //   props.setprofileform();
+  //   setprofileImage("");
+  //   setcoverImage("");
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (profileImage) {
+      const imageFile = new FormData();
+      const fileName = "Profile";
+      imageFile.append("name", fileName);
+      imageFile.append("image", profileImage);
+      try {
+        uploadImage(user._id, imageFile);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    if (coverImage) {
+      const imageFile = new FormData();
+      const fileName = "Cover";
+      imageFile.append("name", fileName);
+      imageFile.append("image", coverImage);
+      try {
+        uploadImage(user._id, imageFile);
+      } catch (error) {
+        console.log(error);
+      }
+    }
     await updateUser(id, modeldata);
-    dispatch(getProfile(user._id));
-    console.log(user);
+
+    setTimeout(() => {
+      dispatch(getProfile(user._id));
+      console.log("dispatch");
+    }, 3000);
+
     props.setprofileform();
+    setprofileImage("");
+    setcoverImage("");
   };
+
+  const onImageChange = async (e) => {
+    if (e.target.files && e.target.files[0]) {
+      const img = await e.target.files[0];
+      if (img) {
+        e.target.name === "profileImage"
+          ? setprofileImage(img)
+          : setcoverImage(img);
+        console.log("uploaded");
+      }
+    }
+  };
+
   return (
     <>
       <Modal
@@ -74,14 +132,36 @@ function ProfileModel(props) {
                 Cover <br />
                 Image
               </span>
-              <input type="file" placeholder="Cover Image" />
+              <input
+                type="file"
+                placeholder="Cover Image"
+                name="coverImage"
+                onChange={onImageChange}
+                accept="image/*"
+                disabled={profileImage ? true : false}
+              />
               <span>
                 {" "}
                 Profile <br /> Image
               </span>
 
-              <input type="file" />
+              <input
+                type="file"
+                name="profileImage"
+                disabled={coverImage ? true : false}
+                onChange={onImageChange}
+                accept="image/*"
+              />
             </div>
+            <span
+              style={{
+                color: "red",
+                alignSelf: "center",
+                display: `${profileImage || coverImage ? "flex" : "none"}`,
+              }}
+            >
+              Only coverimage or profileimage can be changed at a time.
+            </span>
             <button type="submit">Submit</button>
           </form>
         </div>

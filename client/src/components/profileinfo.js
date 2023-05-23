@@ -11,7 +11,6 @@ const Profileinfo = () => {
   const dispatch = useDispatch();
   const [profileform, setprofileform] = useState(false);
   const user = useSelector((state) => state.auth.user);
-  console.log(user);
 
   //Logutt
   const logoutUser = (e) => {
