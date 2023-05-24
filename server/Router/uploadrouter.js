@@ -55,7 +55,7 @@ router.post("/:_id", upload.single("image"), async (req, res) => {
         await user.save();
         res
           .status(200)
-          .json({ success: false, message: "Profile Updated successfully" });
+          .json({ success: true, message: "Image Updated successfully" });
       }
     );
   } catch (error) {

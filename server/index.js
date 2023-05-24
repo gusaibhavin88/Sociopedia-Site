@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import Authrouter from "./Router/authrouter.js";
 import Userrouter from "./Router/userrouter.js";
 import Uploadrouter from "./Router/uploadrouter.js";
+import Postrouter from "./Router/postrouter.js";
 import cloudinary from "cloudinary";
 
 const app = express();
@@ -49,4 +50,5 @@ app.listen(process.env.PORT, () => {
 // handle incoming requests
 app.use("/auth", Authrouter);
 app.use("/user", Userrouter);
+app.use("/post", Postrouter);
 app.use("/upload", Uploadrouter);
