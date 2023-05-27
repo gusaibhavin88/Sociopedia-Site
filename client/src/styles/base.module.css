@@ -7,7 +7,7 @@
 .backfade {
   width: 20rem;
   height: 30rem;
-  position: absolute;
+  position: fixed;
   background-color: #a6ddf0;
   border-radius: 50%;
   filter: blur(7.2rem);

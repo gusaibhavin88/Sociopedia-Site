@@ -8,9 +8,6 @@ import {
   logoutStart,
   logoutSuccess,
   logoutFail,
-  getUserFail,
-  getUserSuccess,
-  getUserStart,
 } from "../reducers/reducers";
 import * as AuthApi from "../API/authrequest";
 

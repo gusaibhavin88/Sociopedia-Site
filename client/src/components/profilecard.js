@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "../styles/profilecard.module.css";
 import Image from "next/image";
 import { cover, profile } from "../../public/Images";
 import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Profilecard = ({ location }) => {
   const user = useSelector((state) => state.auth.user);
   const router = useRouter();
-  const dispatch = useDispatch();
 
   return (
     <div className={styles.profilecard}>
@@ -37,7 +36,9 @@ const Profilecard = ({ location }) => {
         ></Image>
       </div>
       <div className={styles.proinfo}>
-        <h3>Bhavin Goswami</h3>
+        <h3>
+          {user.firstname} {user.lastname}
+        </h3>
         <h3>Write about your self</h3>
       </div>
       <div className={styles.follow}>

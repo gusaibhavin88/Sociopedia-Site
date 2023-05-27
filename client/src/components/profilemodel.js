@@ -26,22 +26,12 @@ function ProfileModel(props) {
     setmodeldata({ ...modeldata, [e.target.name]: e.target.value });
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   await updateUser(id, modeldata);
-  //   dispatch(getProfile(user._id));
-  //   props.setprofileform();
-  //   setprofileImage("");
-  //   setcoverImage("");
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (profileImage) {
       const imageFile = new FormData();
-      const fileName = "Profile";
+      const fileName = `${user._id}_Profile`;
       imageFile.append("name", fileName);
       imageFile.append("image", profileImage);
       try {
@@ -53,7 +43,7 @@ function ProfileModel(props) {
 
     if (coverImage) {
       const imageFile = new FormData();
-      const fileName = "Cover";
+      const fileName = `${user._id}_Cover`;
       imageFile.append("name", fileName);
       imageFile.append("image", coverImage);
       try {
@@ -66,8 +56,7 @@ function ProfileModel(props) {
 
     setTimeout(() => {
       dispatch(getProfile(user._id));
-      console.log("dispatch");
-    }, 3000);
+    }, 2000);
 
     props.setprofileform();
     setprofileImage("");

@@ -2,6 +2,7 @@ import express from "express";
 import multer from "multer";
 import cloudinary from "cloudinary";
 import { Usermodel } from "../Model/Usermodel.js";
+import { Postmodel } from "../Model/Postmodel.js";
 
 const router = express.Router();
 
@@ -21,6 +22,7 @@ router.post("/:_id", upload.single("image"), async (req, res) => {
   const _id = req.params;
   // Access the uploaded image file
   const user = await Usermodel.findById(_id);
+  const post = await Postmodel.find({ userId: _id });
   const file = req.file;
 
   try {
@@ -46,13 +48,20 @@ router.post("/:_id", upload.single("image"), async (req, res) => {
         }
 
         // Return the Cloudinary image URL
-        if (file.filename === "Profile") {
+        if (file.filename === `${user._id}_Profile`) {
           user.profileUrl = result.secure_url;
+          if (post) {
+            post.map(async (post) => {
+              post.profileUrl = result.secure_url;
+              await post.save();
+            });
+          }
         }
-        if (file.filename === "Cover") {
+        if (file.filename === `${user._id}_Cover`) {
           user.coverUrl = result.secure_url;
         }
         await user.save();
+
         res
           .status(200)
           .json({ success: true, message: "Image Updated successfully" });

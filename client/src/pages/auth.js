@@ -9,11 +9,6 @@ import { useRouter } from "next/router";
 const Auth = () => {
   const [isSignup, setisSignup] = useState(false);
   const dispatch = useDispatch();
-  const router = useRouter();
-
-  const error = useSelector((state) => state.auth);
-
-  const user = useSelector((state) => state.auth.user);
 
   // Sign UP
   const [ismatch, setismatch] = useState(false);
@@ -72,6 +67,7 @@ const Auth = () => {
       </div>
       <div className={styles.middleline}></div>
       {isSignup ? (
+        // Sign UP
         <div className={styles.signup}>
           <h1>Sign Up</h1>
           <form onSubmit={signHandleSubmit} className={styles.form}>
@@ -92,7 +88,6 @@ const Auth = () => {
             <input
               type="email"
               name="email"
-              id=""
               placeholder="Email"
               onChange={SignHandleChange}
             />
@@ -135,18 +130,19 @@ const Auth = () => {
           </form>
         </div>
       ) : (
+        // Login
         <div className={styles.signup}>
           <h1>Log In</h1>
           <form action="" onSubmit={logInHandleSubmit} className={styles.form}>
             <input
-              type="text"
+              type="email"
               placeholder="Email"
               onChange={logInHandleChange}
               name="email"
               style={{ width: "394px" }}
             />
             <input
-              type="text"
+              type="password"
               placeholder="Password"
               name="password"
               onChange={logInHandleChange}

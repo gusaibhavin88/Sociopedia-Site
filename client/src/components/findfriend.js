@@ -6,11 +6,11 @@ import { getUsers } from "@/redux/API/authrequest";
 import { useDispatch, useSelector } from "react-redux";
 import { followUpdate } from "@/redux/API/userrequest";
 import { getProfile } from "@/redux/action/useraction";
+import { getAllPosts, getPostUrl } from "@/redux/action/postaction";
 
 const Findfriend = () => {
   const [users, setusers] = useState("");
   const user = useSelector((state) => state.auth.user);
-  const isLoading = useSelector((state) => state.auth.isLoading);
 
   const dispatch = useDispatch();
 
@@ -35,6 +35,10 @@ const Findfriend = () => {
     };
     await followUpdate(ids);
     dispatch(getProfile(user._id));
+    setTimeout(() => {
+      dispatch(getAllPosts(user._id));
+      dispatch(getPostUrl());
+    }, 2000);
   };
 
   return (

@@ -4,7 +4,7 @@
   justify-content: center;
   background-color: white;
   border-radius: 20px;
-  padding: 20px;
+  padding: 2rem;
   gap: 1.5rem;
 }
 
@@ -22,4 +22,14 @@
 
 .likecount {
   color: var(--gray);
+}
+
+.flexseting {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+.flexseting > div > h2 {
+  font-weight: 100;
 }

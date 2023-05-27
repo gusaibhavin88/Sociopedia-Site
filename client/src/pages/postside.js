@@ -3,11 +3,11 @@ import Sharepost from "@/components/sharepost";
 import React from "react";
 import styles from "../styles/postside.module.css";
 
-const Postside = () => {
+const Postside = ({ location }) => {
   return (
     <div className={styles.postside}>
       <Sharepost />
-      <Posts />
+      <Posts location={location} />
     </div>
   );
 };

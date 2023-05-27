@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/sharepost.module.css";
 import Image from "next/image";
 import { profile } from "../../public/Images";
@@ -8,15 +8,17 @@ import { UilLocationPoint } from "@iconscout/react-unicons";
 import { UilSchedule } from "@iconscout/react-unicons";
 import { UilTimes } from "@iconscout/react-unicons";
 import { useRef } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { uploadImage } from "@/redux/API/uploadrequest";
 import { uploadPost } from "@/redux/API/postrequest";
+import { getAllPosts, getPostUrl } from "@/redux/action/postaction";
 
 const Sharepost = () => {
+  const dispatch = useDispatch();
+
   const user = useSelector((state) => state.auth.user);
   const [postImage, setpostImage] = useState("");
   const inputBar = document.getElementById("inputbar");
-  console.log(inputBar);
   const [postData, setpostData] = useState({
     desc: "",
     userId: "",
@@ -57,6 +59,10 @@ const Sharepost = () => {
         uploadPost(postData);
         inputBar.value = "";
         setpostImage("");
+        setTimeout(() => {
+          dispatch(getAllPosts(user._id));
+          dispatch(getPostUrl());
+        }, 2000);
       } catch (error) {
         console.log(error);
       }

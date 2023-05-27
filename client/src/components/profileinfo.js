@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "../styles/profileinfo.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { logOutUser } from "@/redux/action/authaction";
 import Profilemodel from "./profilemodel";
-import { getProfile } from "@/redux/action/useraction";
 
 const Profileinfo = () => {
   const dispatch = useDispatch();
@@ -34,18 +33,28 @@ const Profileinfo = () => {
       <div className={styles.infodata}>
         <h2>
           Status &nbsp; &nbsp; :{" "}
-          <span style={{ fontWeight: "100" }}>{user.relationship}</span>{" "}
+          <span style={{ fontWeight: "100", color: "var(--gray)" }}>
+            {user.relationship ? user.relationship : "Add Relationship Status"}
+          </span>{" "}
         </h2>
         <h2>
-          Living at : <span style={{ fontWeight: "100" }}>{user.livesin}</span>{" "}
+          Living at :{" "}
+          <span style={{ fontWeight: "100", color: "var(--gray)" }}>
+            {user.livesin ? user.livesin : "Where are you living"}
+          </span>{" "}
         </h2>
         <h2>
           Work at &nbsp; :{" "}
-          <span style={{ fontWeight: "100" }}>{user.worksAt}</span>{" "}
+          <span style={{ fontWeight: "100", color: "var(--gray)" }}>
+            {user.worksAt ? user.worksAt : "Where are you working"}
+          </span>{" "}
         </h2>
         <h2>
           Country &nbsp;:{" "}
-          <span style={{ fontWeight: "100" }}> {user.country}</span>
+          <span style={{ fontWeight: "100", color: "var(--gray)" }}>
+            {" "}
+            {user.country ? user.country : "Write your country name"}
+          </span>
         </h2>
       </div>
       <button onClick={logoutUser}>Logout</button>

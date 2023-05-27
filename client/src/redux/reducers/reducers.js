@@ -7,6 +7,8 @@ const initialState = {
   isAuthenticated: false,
   user: null,
   message: null,
+  post: null,
+  posturl: null,
 };
 
 //authReduser
@@ -116,6 +118,58 @@ const authSlice = createSlice({
       state.success = false;
       state.isAuthenticated = false;
     },
+
+    // Get all Posts
+
+    getAllPostsStart: (state) => {
+      state.isLoading = true;
+      state.error = null;
+      state.success = false;
+      state.isAuthenticated = true;
+      state.post = null;
+    },
+    getAllPostsSuccess: (state, action) => {
+      state.isLoading = false;
+      state.error = null;
+      state.success = true;
+      state.isAuthenticated = true;
+      state.post = action.payload.data.post;
+      localStorage.setItem("post", JSON.stringify({ ...action?.payload.data }));
+    },
+    getAllPostsFail: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+      state.success = false;
+      state.post = null;
+      // state.isAuthenticated = false;
+    },
+
+    // Get all Posts Url
+
+    getPostUrlStart: (state) => {
+      state.isLoading = true;
+      state.error = null;
+      state.success = false;
+      state.isAuthenticated = true;
+      state.posturl = null;
+    },
+    getPostUrlSuccess: (state, action) => {
+      state.isLoading = false;
+      state.error = null;
+      state.success = true;
+      state.isAuthenticated = true;
+      state.posturl = action.payload.data.posturl;
+      localStorage.setItem(
+        "postUrl",
+        JSON.stringify({ ...action?.payload.data })
+      );
+    },
+    getPostUrlFail: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+      state.success = false;
+      state.posturl = null;
+    },
   },
 });
 
@@ -132,5 +186,11 @@ export const {
   getUserFail,
   getUserStart,
   getUserSuccess,
+  getAllPostsStart,
+  getAllPostsSuccess,
+  getAllPostsFail,
+  getPostUrlStart,
+  getPostUrlSuccess,
+  getPostUrlFail,
 } = authSlice.actions;
 export default authSlice.reducer;
