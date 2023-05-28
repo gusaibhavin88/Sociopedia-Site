@@ -49,7 +49,6 @@ const Profilecard = ({ location }) => {
         <div style={{ borderLeft: "1px solid var(--hrColor)" }}></div>
         <div className={styles.followersinfo}>
           <h3>{user.following.length}</h3>
-
           <h3>following</h3>
         </div>
       </div>

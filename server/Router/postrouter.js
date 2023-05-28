@@ -3,6 +3,7 @@ import {
   getAllPosts,
   getposts,
   getpostsUrl,
+  likePost,
   likepost,
   uploadPost,
 } from "../Controllers/postcontroller.js";
@@ -14,5 +15,6 @@ router.post("/likepost", likepost);
 router.get("/:userId/getposts", getposts);
 router.get("/getpostsurl", getpostsUrl);
 router.get("/:userId/getallposts", getAllPosts);
+router.put("/likepost", likePost);
 
 export default router;

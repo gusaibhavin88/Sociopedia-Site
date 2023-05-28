@@ -6,12 +6,13 @@ import { UilScenery } from "@iconscout/react-unicons";
 import { UilPlayCircle } from "@iconscout/react-unicons";
 import { UilLocationPoint } from "@iconscout/react-unicons";
 import { UilSchedule } from "@iconscout/react-unicons";
-import { UilTimes } from "@iconscout/react-unicons";
+// import { UilTimes } from "@iconscout/react-unicons";
 import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { uploadImage } from "@/redux/API/uploadrequest";
 import { uploadPost } from "@/redux/API/postrequest";
 import { getAllPosts, getPostUrl } from "@/redux/action/postaction";
+import { attachment } from "../../public/Images";
 
 const Sharepost = () => {
   const dispatch = useDispatch();
@@ -73,7 +74,9 @@ const Sharepost = () => {
     <div className={styles.sharepost}>
       <div className={styles.inputbar}>
         <Image
-          src={profile}
+          src={user.profileUrl ? user.profileUrl : profile}
+          width={100}
+          height={100}
           alt="Image not found"
           style={{
             width: "50px",
@@ -89,6 +92,10 @@ const Sharepost = () => {
           id="inputbar"
           onChange={handleChange}
         />
+        <Image
+          src={attachment}
+          style={postImage ? { display: "flex" } : { display: "none" }}
+        />
       </div>
       <div className={styles.sharebtns}>
         <div
@@ -101,20 +108,21 @@ const Sharepost = () => {
             ref={imageRef}
             style={{ display: "none" }}
             onChange={onImageChange}
+            name="attach"
           />
-          <UilScenery />
+          <UilScenery className={styles.icon} />
           Image
         </div>
         <div className={styles.option} style={{ color: "var(--video)" }}>
-          <UilPlayCircle />
+          <UilPlayCircle className={styles.icon} />
           Video
         </div>
         <div className={styles.option} style={{ color: "var(--location)" }}>
-          <UilLocationPoint />
+          <UilLocationPoint className={styles.icon} />
           Location
         </div>
         <div className={styles.option} style={{ color: "var(--schedule)" }}>
-          <UilSchedule />
+          <UilSchedule className={styles.icon} />
           Schedule
         </div>
         <button

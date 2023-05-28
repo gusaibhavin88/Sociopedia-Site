@@ -56,7 +56,7 @@ function ProfileModel(props) {
 
     setTimeout(() => {
       dispatch(getProfile(user._id));
-    }, 2000);
+    }, 4000);
 
     props.setprofileform();
     setprofileImage("");

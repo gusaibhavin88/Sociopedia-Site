@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "../styles/post.module.css";
 import Image from "next/image";
 import { profile } from "../../public/Images";
@@ -7,9 +7,24 @@ import { faMessage, faShare } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import { likePost } from "@/redux/API/postrequest";
+import { useSelector } from "react-redux";
 library.add(faHeart);
 
 const Post = ({ post, imageUrl, days }) => {
+  const [postImage, setpostImage] = useState("");
+  const user = useSelector((state) => state.auth.user);
+  // {
+
+  // }
+
+  const handleLike = async (postId) => {
+    const response = await likePost({
+      postId: postId,
+      profileId: user._id,
+    });
+    setpostImage(response.data.post);
+  };
   return (
     <div className={styles.post} key={post._id}>
       <div className={styles.flexseting}>
@@ -34,16 +49,45 @@ const Post = ({ post, imageUrl, days }) => {
         height={100}
       ></Image>
       <div className={styles.postbtn}>
-        <FontAwesomeIcon icon={faHeart} size="2x" color="var(--location)" />
-        <FontAwesomeIcon icon={faMessage} size="2x" color="var(--location)" />
-        <FontAwesomeIcon icon={faShare} size="2x" color="var(--location)" />
-      </div>
-      <div
-        className={styles.likecount}
-        style={{ display: "flex", gap: "1rem", fontSize: "14px" }}
-      >
-        <span>{post.likes.length}</span>
-        <span>Likes</span>
+        <div style={{ alignItems: "center", display: "flex", gap: "0.8rem" }}>
+          <FontAwesomeIcon
+            icon={faHeart}
+            size="2x"
+            color={
+              postImage
+                ? postImage.likes.includes(user._id)
+                  ? "var(--location)"
+                  : "var(--hrColor)"
+                : post.likes.includes(user._id)
+                ? "var(--location)"
+                : "var(--hrColor)"
+            }
+            onClick={() => handleLike(post._id)}
+          />
+          <div
+            className={styles.likecount}
+            style={{ display: "flex", gap: "0.5rem", fontSize: "14px" }}
+          >
+            <span>
+              {" "}
+              {postImage ? postImage.likes.length : post.likes.length}
+            </span>
+            <span>Likes</span>
+          </div>
+        </div>
+
+        <div style={{ alignItems: "center", display: "flex", gap: "0.8rem" }}>
+          <FontAwesomeIcon icon={faMessage} size="2x" color="var(--location)" />
+          <span style={{ fontSize: "1.5rem", color: "var( --gray)" }}>
+            Comments
+          </span>
+        </div>
+        <div style={{ alignItems: "center", display: "flex", gap: "0.8rem" }}>
+          <FontAwesomeIcon icon={faShare} size="2x" color="var(--location)" />{" "}
+          <span style={{ fontSize: "1.5rem", color: "var( --gray)" }}>
+            Share
+          </span>
+        </div>
       </div>
     </div>
   );

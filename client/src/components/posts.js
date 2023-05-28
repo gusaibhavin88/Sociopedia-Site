@@ -30,7 +30,15 @@ const Posts = ({ location }) => {
     // Convert milliseconds to days
     const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
     // Generate the output string
-    return `${daysDiff} day${daysDiff !== 1 ? "s" : ""} ago`;
+    if (timeDiff < 1000 * 60 * 60 * 24) {
+      // If the duration is less than one day, calculate the hours difference
+      const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
+      return `${hoursDiff} hour${hoursDiff !== 1 ? "s" : ""} ago`;
+    } else {
+      // If the duration is one day or more, calculate the days difference
+      const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+      return `${daysDiff} day${daysDiff !== 1 ? "s" : ""} ago`;
+    }
   };
 
   return (
@@ -42,8 +50,13 @@ const Posts = ({ location }) => {
               .filter((posturl) => posturl.userId === user._id)
               .map((post) => {
                 const imageUrl = getImageUrl(post.imageName);
+                const days = dayscount(post.createdAt);
                 return (
-                  <>{imageUrl && <Post post={post} imageUrl={imageUrl} />}</>
+                  <>
+                    {imageUrl && (
+                      <Post post={post} imageUrl={imageUrl} days={days} />
+                    )}
+                  </>
                 );
               })
           ) : (

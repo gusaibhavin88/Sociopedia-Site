@@ -102,8 +102,28 @@ export const getAllPosts = async (req, resp) => {
     resp.status(200).json({
       post: currentUserPosts
         .concat(...followingPosts[0].followingPosts)
-        .sort((a, b) => b.createdAt - a.createdAt),
+        .sort((a, b) => {
+          const createdAtA = new Date(a.createdAt);
+          const createdAtB = new Date(b.createdAt);
+          return (createdAtB - createdAtA) / 1000;
+        }),
     });
+  } catch (error) {
+    resp.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const likePost = async (req, resp) => {
+  const { postId, profileId } = req.body;
+  try {
+    const post = await Postmodel.findById(postId);
+    if (post.likes.includes(profileId)) {
+      post.likes.pull(profileId);
+    } else {
+      post.likes.push(profileId);
+    }
+    await post.save();
+    resp.status(200).json({ post: post });
   } catch (error) {
     resp.status(500).json({ success: false, message: error.message });
   }

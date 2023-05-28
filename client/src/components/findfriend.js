@@ -50,7 +50,7 @@ const Findfriend = () => {
             <div className={styles.friendinfo} key={data._id}>
               <div className={styles.flexseting}>
                 <Image
-                  src={profile}
+                  src={data.profileurl ? data.profileurl : profile}
                   alt="Image not found"
                   style={{ width: "50px", height: "50px", borderRadius: "50%" }}
                 ></Image>

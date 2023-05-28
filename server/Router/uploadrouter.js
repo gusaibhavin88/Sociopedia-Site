@@ -3,6 +3,7 @@ import multer from "multer";
 import cloudinary from "cloudinary";
 import { Usermodel } from "../Model/Usermodel.js";
 import { Postmodel } from "../Model/Postmodel.js";
+import fs from "fs";
 
 const router = express.Router();
 
@@ -61,6 +62,11 @@ router.post("/:_id", upload.single("image"), async (req, res) => {
           user.coverUrl = result.secure_url;
         }
         await user.save();
+        const directory = "./uploads/";
+        fs.readdirSync(directory).forEach((file) => {
+          const filePath = directory + file;
+          fs.rmSync(filePath, { recursive: true });
+        });
 
         res
           .status(200)
