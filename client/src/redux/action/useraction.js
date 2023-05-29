@@ -46,10 +46,10 @@ import * as UserApi from "../API/userrequest";
 //   }
 // };
 
-export const getProfile = (formdata) => async (dispatch) => {
+export const getProfile = () => async (dispatch) => {
   try {
     dispatch(getUserStart());
-    const response = await UserApi.getMyProfile(formdata);
+    const response = await UserApi.getMyProfile();
     dispatch(getUserSuccess(response));
   } catch (error) {
     dispatch(getUserFail(error.response.data));

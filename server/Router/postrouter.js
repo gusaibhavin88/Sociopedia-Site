@@ -4,17 +4,18 @@ import {
   getposts,
   getpostsUrl,
   likePost,
-  likepost,
+  // likepost,
   uploadPost,
 } from "../Controllers/postcontroller.js";
+import { isAuthenticated } from "../Middleware/isauthenticated.js";
 
 const router = express.Router();
 
-router.post("/uploadpost", uploadPost);
-router.post("/likepost", likepost);
-router.get("/:userId/getposts", getposts);
+router.post("/uploadpost", isAuthenticated, uploadPost);
+// router.post("/likepost", isAuthenticated, likepost);
+router.get("/:userId/getposts", isAuthenticated, getposts);
 router.get("/getpostsurl", getpostsUrl);
-router.get("/:userId/getallposts", getAllPosts);
-router.put("/likepost", likePost);
+router.get("/:userId/getallposts", isAuthenticated, getAllPosts);
+router.put("/likepost", isAuthenticated, likePost);
 
 export default router;

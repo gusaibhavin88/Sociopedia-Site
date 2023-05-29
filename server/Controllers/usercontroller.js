@@ -5,10 +5,13 @@ import bcrypt from "bcrypt";
 // Get my profile
 
 export const getMyProfile = async (req, resp) => {
-  const { _id } = req.params;
-  const user = await Usermodel.findById(_id);
+  const user = await Usermodel.findById(req.user._id);
   try {
-    sendToken(resp, 200, user, "Welcome back");
+    // const { password, ...otherdetails } = user._doc;
+    resp.status(200).json({
+      success: true,
+      user: user,
+    });
   } catch (error) {
     resp.status(500).json({ success: false, message: error.message });
   }
@@ -110,14 +113,3 @@ export const followUser = async (req, resp) => {
     resp.status(500).json({ success: false, message: error.message });
   }
 };
-
-// Upload Image
-
-// export const uploadImage = async (req, resp) => {
-//   const file = req.files.file;
-//   try {
-//     resp.status(200).json({ success: true, message: "Uploaded success FUlly" });
-//   } catch (error) {
-//     resp.status(500).json({ success: false, message: error.message });
-//   }
-// };

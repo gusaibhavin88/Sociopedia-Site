@@ -11,6 +11,7 @@ import { getAllPosts, getPostUrl } from "@/redux/action/postaction";
 const Findfriend = () => {
   const [users, setusers] = useState("");
   const user = useSelector((state) => state.auth.user);
+  console.log(user);
 
   const dispatch = useDispatch();
 
@@ -34,11 +35,11 @@ const Findfriend = () => {
       friendId: friendId,
     };
     await followUpdate(ids);
-    dispatch(getProfile(user._id));
+    dispatch(getProfile());
     setTimeout(() => {
       dispatch(getAllPosts(user._id));
       dispatch(getPostUrl());
-    }, 2000);
+    }, 5000);
   };
 
   return (
@@ -50,9 +51,11 @@ const Findfriend = () => {
             <div className={styles.friendinfo} key={data._id}>
               <div className={styles.flexseting}>
                 <Image
-                  src={data.profileurl ? data.profileurl : profile}
+                  src={data.profileUrl ? data.profileUrl : profile}
                   alt="Image not found"
                   style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+                  width={100}
+                  height={100}
                 ></Image>
                 <div className={styles.nameinfo}>
                   <h4>

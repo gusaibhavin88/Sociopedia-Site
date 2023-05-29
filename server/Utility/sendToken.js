@@ -8,12 +8,15 @@ export const sendToken = async (resp, statuscode, user, message) => {
       ),
     };
     const { password, ...otherdetails } = user._doc;
-    resp.status(statuscode).cookie("token", token, options).json({
-      success: true,
-      message: message,
-      user: otherdetails,
-      token: token,
-    });
+    resp
+      .status(statuscode)
+      .cookie("token", token, options)
+      .json({
+        success: true,
+        message: message,
+        user: otherdetails,
+        token: { token: token },
+      });
   } catch (error) {
     resp.status(500).json({ success: false, message: error.message });
   }

@@ -31,7 +31,11 @@ const authSlice = createSlice({
       state.user = action.payload.data.user;
       localStorage.setItem(
         "profile",
-        JSON.stringify({ ...action?.payload.data })
+        JSON.stringify({ ...action?.payload.data.user })
+      );
+      localStorage.setItem(
+        "token",
+        JSON.stringify({ ...action?.payload.data.token })
       );
     },
     registerFail: (state, action) => {
@@ -56,7 +60,11 @@ const authSlice = createSlice({
       state.user = action.payload.data.user;
       localStorage.setItem(
         "profile",
-        JSON.stringify({ ...action?.payload.data })
+        JSON.stringify({ ...action?.payload.data.user })
+      );
+      localStorage.setItem(
+        "token",
+        JSON.stringify({ ...action?.payload.data.token })
       );
     },
     loginFail: (state, action) => {
@@ -105,10 +113,9 @@ const authSlice = createSlice({
       state.success = true;
       state.isAuthenticated = true;
       state.user = action.payload.data.user;
-      // console.log(state.user);
       localStorage.setItem(
         "profile",
-        JSON.stringify({ ...action?.payload.data })
+        JSON.stringify({ ...action?.payload.data.user })
       );
     },
     getUserFail: (state, action) => {
