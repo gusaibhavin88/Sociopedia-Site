@@ -41,15 +41,3 @@ export const logOutUser = () => async (dispatch) => {
     dispatch(logoutFail(error.response.data));
   }
 };
-
-// export const getUser = () => async (dispatch) => {
-//   try {
-//     dispatch(getUserStart());
-//     const response = await AuthApi.getUser();
-//     console.log(response);
-
-//     dispatch(getUserSuccess(response));
-//   } catch (error) {
-//     dispatch(getUserFail(error.response.data));
-//   }
-// };

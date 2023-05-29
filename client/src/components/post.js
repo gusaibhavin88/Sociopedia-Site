@@ -14,9 +14,6 @@ library.add(faHeart);
 const Post = ({ post, imageUrl, days }) => {
   const [postImage, setpostImage] = useState("");
   const user = useSelector((state) => state.auth.user);
-  // {
-
-  // }
 
   const handleLike = async (postId) => {
     const response = await likePost({

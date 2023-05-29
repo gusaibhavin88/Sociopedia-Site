@@ -1,7 +1,6 @@
-import { useDisclosure } from "@mantine/hooks";
-import { Modal, Button, Group } from "@mantine/core";
+import { Modal } from "@mantine/core";
 import styles from "../styles/profilemodel.module.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { updateUser } from "@/redux/API/userrequest";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,8 +14,6 @@ function ProfileModel(props) {
   const dispatch = useDispatch();
   const router = useRouter();
   const { id } = router.query;
-
-  useEffect(() => {}, [user]);
 
   const [modeldata, setmodeldata] = useState({
     _id: user._id,

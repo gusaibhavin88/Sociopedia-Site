@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { logo } from "../../public/Images";
 import styles from "../styles/auth.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { logInUser, registerUser } from "@/redux/action/authaction";
-import { useRouter } from "next/router";
 
 const Auth = () => {
   const [isSignup, setisSignup] = useState(false);

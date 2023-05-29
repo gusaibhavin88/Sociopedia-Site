@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "../styles/sharepost.module.css";
 import Image from "next/image";
 import { profile } from "../../public/Images";
@@ -6,7 +6,6 @@ import { UilScenery } from "@iconscout/react-unicons";
 import { UilPlayCircle } from "@iconscout/react-unicons";
 import { UilLocationPoint } from "@iconscout/react-unicons";
 import { UilSchedule } from "@iconscout/react-unicons";
-// import { UilTimes } from "@iconscout/react-unicons";
 import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { uploadImage } from "@/redux/API/uploadrequest";

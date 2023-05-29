@@ -5,16 +5,12 @@ import { useSelector } from "react-redux";
 
 const Base = ({ Component, pageProps }) => {
   const router = useRouter();
-  const user = useSelector((state) => state.auth.user);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
-    if (user) {
-      // If the user is authenticated, navigate to the home page
-
+    if (isAuthenticated) {
       router.replace("/home");
     } else {
-      // If the user is not authenticated, navigate to the auth page
       router.replace("/auth");
     }
   }, [isAuthenticated]);
