@@ -7,11 +7,11 @@ API.interceptors.request.use((req) => {
 
   if (token) {
     req.headers.Authorization = `Bearer ${token.token}`;
+    return req;
   }
-  return req;
 });
 
-export const getUsers = () => API.get("/user/getusers");
+export const getAllUsers = () => API.get("/user/getusers");
 export const getMyProfile = () => API.get("/user/me");
 export const followUpdate = (ids) => API.post("user/followuser", ids);
 export const updateUser = (id, formdata) =>

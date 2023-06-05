@@ -3,14 +3,12 @@ export const sendToken = async (resp, statuscode, user, message) => {
     const token = user.getJWTtoken();
     const options = {
       httpOnly: true,
-      expires: new Date(
-        Date.now() + process.env.JWT_EXPIRE_COOKIE * 60 * 60 * 1000
-      ),
+      expires: new Date(Date.now() + process.env.JWT_EXPIRE_COOKIE * 60 * 60),
     };
     const { password, ...otherdetails } = user._doc;
     resp
       .status(statuscode)
-      .cookie("token", token, options)
+      .cookie("token", token, options) //not usefull in this site
       .json({
         success: true,
         message: message,

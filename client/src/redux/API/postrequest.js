@@ -7,11 +7,11 @@ API.interceptors.request.use((req) => {
 
   if (token) {
     req.headers.Authorization = `Bearer ${token.token}`;
+    return req;
   }
-  return req;
 });
 
 export const uploadPost = (formdata) => API.post("/post/uploadpost", formdata);
-export const getAllPosts = (userId) => API.get(`/post/${userId}/getallposts`);
+export const getAllPosts = () => API.get("/post/getallposts");
 export const getPostUrl = () => API.get("/post/getpostsurl");
 export const likePost = (formdata) => API.put("/post/likepost", formdata);

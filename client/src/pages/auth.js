@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { logo } from "../../public/Images";
 import styles from "../styles/auth.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { logInUser, registerUser } from "@/redux/action/authaction";
+import { useRouter } from "next/router";
 
 const Auth = () => {
   const [isSignup, setisSignup] = useState(false);
   const dispatch = useDispatch();
+  const router = useRouter();
+  const error = useSelector((state) => state.auth.error);
 
   // Sign UP
   const [ismatch, setismatch] = useState(false);
@@ -122,10 +125,15 @@ const Auth = () => {
               *Confirm password is not matching
             </span>
 
-            <span onClick={() => setisSignup(false)}>
+            <span
+              onClick={() => setisSignup(false)}
+              style={{ cursor: "pointer" }}
+            >
               Already have an account. Login!
             </span>
-            <button type="submit">Submit</button>
+            <button type="submit" style={{ cursor: "pointer" }}>
+              Submit
+            </button>
           </form>
         </div>
       ) : (
@@ -150,10 +158,18 @@ const Auth = () => {
               title="Your password must be at least 8 characters long and contain at least one uppercase letter and one unique character."
               required
             />
-            <span onClick={() => setisSignup(true)}>
+            <span style={{ color: "red", fontSize: "1rem" }}>
+              {error && error.data.message}
+            </span>
+            <span
+              onClick={() => setisSignup(true)}
+              style={{ cursor: "pointer" }}
+            >
               Dont han an account? SigUp
             </span>
-            <button type="submit">Submit</button>
+            <button type="submit" style={{ cursor: "pointer" }}>
+              Submit
+            </button>
           </form>
         </div>
       )}

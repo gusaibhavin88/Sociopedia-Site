@@ -148,7 +148,9 @@ function ProfileModel(props) {
             >
               Only coverimage or profileimage can be changed at a time.
             </span>
-            <button type="submit">Submit</button>
+            <button type="submit" style={{ cursor: "pointer" }}>
+              Submit
+            </button>
           </form>
         </div>
       </Modal>

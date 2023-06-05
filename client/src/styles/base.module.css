@@ -1,6 +1,7 @@
 .base {
   background-color: var(--inputColor);
   position: relative;
+  min-height: 100vh;
   overflow: hidden;
 }
 

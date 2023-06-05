@@ -1,18 +1,14 @@
 import React, { useEffect } from "react";
 import styles from "../styles/base.module.css";
-import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getProfile } from "@/redux/action/useraction";
 
 const Base = ({ Component, pageProps }) => {
-  const router = useRouter();
+  const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      router.replace("/home");
-    } else {
-      router.replace("/auth");
-    }
+    dispatch(getProfile());
   }, [isAuthenticated]);
 
   return (

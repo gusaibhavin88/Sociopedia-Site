@@ -9,6 +9,7 @@ const initialState = {
   message: null,
   post: null,
   posturl: null,
+  allusers: null,
 };
 
 //authReduser
@@ -41,7 +42,6 @@ const authSlice = createSlice({
     registerFail: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
-      // console.log(state.error);
       state.success = false;
       state.isAuthenticated = false;
     },
@@ -78,19 +78,15 @@ const authSlice = createSlice({
       state.isLoading = true;
       state.error = null;
       state.success = false;
-      state.isAuthenticated = true;
+      state.isAuthenticated = false;
     },
     logoutSuccess: (state, action) => {
       state.isLoading = false;
       state.error = null;
       state.success = true;
       state.isAuthenticated = false;
-      state.message = action.payload.data.message;
       state.user = null;
-      localStorage.setItem(
-        "profile",
-        JSON.stringify({ ...action?.payload.data })
-      );
+      localStorage.clear();
     },
     logoutFail: (state, action) => {
       state.isLoading = false;
@@ -105,7 +101,7 @@ const authSlice = createSlice({
       state.isLoading = true;
       state.error = null;
       state.success = false;
-      state.isAuthenticated = true;
+      state.user = "";
     },
     getUserSuccess: (state, action) => {
       state.isLoading = false;
@@ -121,9 +117,9 @@ const authSlice = createSlice({
     getUserFail: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
-      // console.log(state.error);
       state.success = false;
       state.isAuthenticated = false;
+      console.log(state.error);
     },
 
     // Get all Posts
@@ -148,7 +144,6 @@ const authSlice = createSlice({
       state.error = action.payload;
       state.success = false;
       state.post = null;
-      // state.isAuthenticated = false;
     },
 
     // Get all Posts Url
@@ -177,6 +172,26 @@ const authSlice = createSlice({
       state.success = false;
       state.posturl = null;
     },
+
+    // Get all Users
+
+    getAllUsersStart: (state) => {
+      state.isLoading = true;
+      state.error = null;
+      state.success = false;
+    },
+    getAllUsersSuccess: (state, action) => {
+      state.isLoading = false;
+      state.error = null;
+      state.success = true;
+      state.allusers = action.payload.data.users;
+    },
+    getAllUsersFail: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+      state.success = false;
+      state.posturl = null;
+    },
   },
 });
 
@@ -199,5 +214,8 @@ export const {
   getPostUrlStart,
   getPostUrlSuccess,
   getPostUrlFail,
+  getAllUsersStart,
+  getAllUsersSuccess,
+  getAllUsersFail,
 } = authSlice.actions;
 export default authSlice.reducer;

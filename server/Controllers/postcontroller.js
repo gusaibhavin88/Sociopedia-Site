@@ -3,6 +3,8 @@ import { Postmodel } from "../Model/Postmodel.js";
 import { Usermodel } from "../Model/Usermodel.js";
 import cloudinary from "cloudinary";
 
+// uploadPost
+
 export const uploadPost = async (req, resp) => {
   const { userId, desc, imageName } = req.body;
   const user = await Usermodel.findById(userId);
@@ -23,21 +25,7 @@ export const uploadPost = async (req, resp) => {
   }
 };
 
-// export const likepost = async (req, resp) => {
-//   const { postId, likerId } = req.body;
-//   let post = await Postmodel.findOne({ _id: postId });
-//   try {
-//     if (post.likes.includes(likerId)) {
-//       post.likes.pull(likerId);
-//     } else {
-//       post.likes.push(likerId);
-//     }
-//     await post.save();
-//     resp.status(200).json({ success: true, message: post });
-//   } catch (error) {
-//     resp.status(500).json({ success: false, message: error.message });
-//   }
-// };
+// getposts
 
 export const getposts = async (req, resp) => {
   const { userId } = req.params;
@@ -52,6 +40,8 @@ export const getposts = async (req, resp) => {
     resp.status(500).json({ success: false, message: error.message });
   }
 };
+
+// getpostsUrl
 
 export const getpostsUrl = (req, res) => {
   cloudinary.v2.api.resources(
@@ -73,8 +63,10 @@ export const getpostsUrl = (req, res) => {
   );
 };
 
+// getAllPosts
+
 export const getAllPosts = async (req, resp) => {
-  const { userId } = req.params;
+  const userId = await req.user._id;
   try {
     const currentUserPosts = await Postmodel.find({ userId: userId });
     const followingPosts = await Usermodel.aggregate([
@@ -112,6 +104,8 @@ export const getAllPosts = async (req, resp) => {
     resp.status(500).json({ success: false, message: error.message });
   }
 };
+
+// likepost
 
 export const likePost = async (req, resp) => {
   const { postId, profileId } = req.body;

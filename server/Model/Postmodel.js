@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import moment from "moment";
 
 const postSchema = mongoose.Schema({
   userId: {
@@ -23,7 +24,7 @@ const postSchema = mongoose.Schema({
   likes: [],
   createdAt: {
     type: Date,
-    default: new Date(),
+    default: moment().toDate(),
   },
 });
 

@@ -8,13 +8,13 @@ import {
   getPostUrlFail,
 } from "../reducers/reducers.js";
 
-export const getAllPosts = (formdata) => async (dispatch) => {
+export const getAllPosts = () => async (dispatch) => {
   try {
     dispatch(getAllPostsStart());
-    const response = await AuthApi.getAllPosts(formdata);
+    const response = await AuthApi.getAllPosts();
     dispatch(getAllPostsSuccess(response));
   } catch (error) {
-    dispatch(getAllPostsFail(error.response.data));
+    dispatch(getAllPostsFail(error.response));
   }
 };
 export const getPostUrl = () => async (dispatch) => {
@@ -23,6 +23,6 @@ export const getPostUrl = () => async (dispatch) => {
     const response = await AuthApi.getPostUrl();
     dispatch(getPostUrlSuccess(response));
   } catch (error) {
-    dispatch(getPostUrlFail(error.response.data));
+    dispatch(getPostUrlFail(error.response));
   }
 };

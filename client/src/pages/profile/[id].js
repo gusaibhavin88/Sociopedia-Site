@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "../../styles/profile.module.css";
 import Profileleft from "@/components/profileleft";
 import Postprofile from "@/components/postprofile";

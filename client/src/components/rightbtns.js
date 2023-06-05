@@ -15,7 +15,7 @@ const Rightbtns = () => {
       <FontAwesomeIcon
         icon={faHouse}
         width={25}
-        style={{ color: "var(--location)", fontSize: "2em" }}
+        style={{ color: "var(--location)", fontSize: "2em", cursor: "pointer" }}
       />
       <FontAwesomeIcon
         icon={faGear}

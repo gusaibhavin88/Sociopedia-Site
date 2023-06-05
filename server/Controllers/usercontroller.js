@@ -7,7 +7,6 @@ import bcrypt from "bcrypt";
 export const getMyProfile = async (req, resp) => {
   const user = await Usermodel.findById(req.user._id);
   try {
-    // const { password, ...otherdetails } = user._doc;
     resp.status(200).json({
       success: true,
       user: user,
@@ -42,15 +41,18 @@ export const deleteUser = async (req, resp) => {
 // Get all users
 
 export const getAllUser = async (req, resp) => {
-  const users = await Usermodel.find();
-
-  const allUsers = users.map((user) => {
-    const { password, ...otherdetails } = user._doc;
-    return otherdetails;
-  });
-
   try {
-    resp.status(200).json({ success: false, user: allUsers });
+    const authUser = await Usermodel.findById(req.user._id);
+    const users = await Usermodel.find();
+
+    const allUsers = users
+      .filter((user) => user._id.toString() !== authUser._id.toString()) //need to use String while comparing
+      .map((filtered) => {
+        const { password, ...otherDetails } = filtered._doc;
+        return otherDetails;
+      });
+
+    resp.status(200).json({ success: true, users: allUsers });
   } catch (error) {
     resp.status(500).json({ success: false, message: error.message });
   }

@@ -35,8 +35,7 @@ export const logInUser = (formdata) => async (dispatch) => {
 export const logOutUser = () => async (dispatch) => {
   try {
     dispatch(logoutStart());
-    const response = await AuthApi.logOut();
-    dispatch(logoutSuccess(response));
+    dispatch(logoutSuccess());
   } catch (error) {
     dispatch(logoutFail(error.response.data));
   }

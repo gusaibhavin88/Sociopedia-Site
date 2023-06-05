@@ -18,14 +18,14 @@ const Sharepost = () => {
 
   const user = useSelector((state) => state.auth.user);
   const [postImage, setpostImage] = useState("");
-  const inputBar = document.getElementById("inputbar");
+  const [inputBar, setinputBar] = useState("");
+  const imageRef = useRef();
+
   const [postData, setpostData] = useState({
     desc: "",
     userId: "",
     imageName: "",
   });
-
-  const imageRef = useRef();
 
   const handleChange = (e) => {
     setpostData({
@@ -33,6 +33,7 @@ const Sharepost = () => {
       [e.target.name]: e.target.value,
       userId: user._id,
     });
+    setinputBar(e.target.value);
   };
 
   const onImageChange = async (e) => {
@@ -46,8 +47,7 @@ const Sharepost = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (postImage && inputBar.value) {
+    if (postImage && inputBar) {
       const imageFile = new FormData();
       const fileName = `${Date.now()}_${user._id}`;
       imageFile.append("name", fileName);
@@ -57,6 +57,8 @@ const Sharepost = () => {
       try {
         uploadImage(user._id, imageFile);
         uploadPost(postData);
+        setinputBar("");
+        const inputBar = document.getElementById("inputbar");
         inputBar.value = "";
         setpostImage("");
         setTimeout(() => {
@@ -71,69 +73,79 @@ const Sharepost = () => {
 
   return (
     <div className={styles.sharepost}>
-      <div className={styles.inputbar}>
-        <Image
-          src={user.profileUrl ? user.profileUrl : profile}
-          width={100}
-          height={100}
-          alt="Image not found"
-          style={{
-            width: "50px",
-            height: "50px",
-            borderRadius: "50%",
-            marginRight: "1rem",
-          }}
-        ></Image>{" "}
-        <input
-          type="text"
-          placeholder="What's happening"
-          name="desc"
-          id="inputbar"
-          onChange={handleChange}
-        />
-        <Image
-          src={attachment}
-          style={postImage ? { display: "flex" } : { display: "none" }}
-        />
-      </div>
-      <div className={styles.sharebtns}>
-        <div
-          className={styles.option}
-          style={{ color: "var(--photo)", alignItems: "center" }}
-          onClick={() => imageRef.current.click()}
-        >
-          <input
-            type="file"
-            ref={imageRef}
-            style={{ display: "none" }}
-            onChange={onImageChange}
-            name="attach"
-          />
-          <UilScenery className={styles.icon} />
-          Image
-        </div>
-        <div className={styles.option} style={{ color: "var(--video)" }}>
-          <UilPlayCircle className={styles.icon} />
-          Video
-        </div>
-        <div className={styles.option} style={{ color: "var(--location)" }}>
-          <UilLocationPoint className={styles.icon} />
-          Location
-        </div>
-        <div className={styles.option} style={{ color: "var(--schedule)" }}>
-          <UilSchedule className={styles.icon} />
-          Schedule
-        </div>
-        <button
-          onClick={handleSubmit}
-          disabled={postImage && inputBar.value ? false : true}
-          style={{
-            background: postImage && inputBar.value ? "" : "var(--gray)",
-          }}
-        >
-          Share
-        </button>
-      </div>
+      {user && (
+        <>
+          <div className={styles.inputbar}>
+            <Image
+              src={user.profileUrl ? user.profileUrl : profile}
+              width={100}
+              height={100}
+              alt="Image not found"
+              style={{
+                width: "50px",
+                height: "50px",
+                borderRadius: "50%",
+                marginRight: "1rem",
+                cursor: "pointer",
+              }}
+            ></Image>{" "}
+            <input
+              type="text"
+              placeholder="What's happening"
+              name="desc"
+              id="inputbar"
+              onChange={handleChange}
+            />
+            <Image
+              src={attachment}
+              style={postImage ? { display: "flex" } : { display: "none" }}
+            />
+          </div>
+          <div className={styles.sharebtns}>
+            <div
+              className={styles.option}
+              style={{ color: "var(--photo)", alignItems: "center" }}
+              onClick={() => imageRef.current.click()}
+            >
+              <input
+                type="file"
+                ref={imageRef}
+                style={{ display: "none" }}
+                onChange={onImageChange}
+                name="attach"
+              />
+              <UilScenery
+                className={styles.icon}
+                style={{
+                  cursor: "pointer",
+                }}
+              />
+              Image
+            </div>
+            <div className={styles.option} style={{ color: "var(--video)" }}>
+              <UilPlayCircle className={styles.icon} />
+              Video
+            </div>
+            <div className={styles.option} style={{ color: "var(--location)" }}>
+              <UilLocationPoint className={styles.icon} />
+              Location
+            </div>
+            <div className={styles.option} style={{ color: "var(--schedule)" }}>
+              <UilSchedule className={styles.icon} />
+              Schedule
+            </div>
+            <button
+              onClick={handleSubmit}
+              disabled={postImage && inputBar ? false : true}
+              style={{
+                background: postImage && inputBar ? "" : "var(--gray)",
+              }}
+            >
+              Share
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 };
