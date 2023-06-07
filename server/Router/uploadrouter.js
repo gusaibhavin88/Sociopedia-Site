@@ -22,6 +22,7 @@ const upload = multer({ storage });
 // Define route for image upload
 router.post("/:_id", upload.single("image"), async (req, res) => {
   const _id = req.params;
+
   // Access the uploaded image file
   const user = await Usermodel.findById(_id);
   const post = await Postmodel.find({ userId: _id });
@@ -39,11 +40,31 @@ router.post("/:_id", upload.single("image"), async (req, res) => {
         .json({ success: false, message: "User not found" });
     }
 
-    // Compress the image using sharp
-    const compressedImage = await sharp(file.path)
-      .resize({ fit: "inside", withoutEnlargement: true, limitPixels: 1000000 })
-      .jpeg({ quality: 80 }) // Adjust quality as per your requirements
-      .toBuffer();
+    // Set the target file size in bytes (1MB)
+    const targetFileSize = 1 * 1024 * 1024;
+    let quality = 90; // Initial quality value
+    let compressedImage;
+
+    // Reduce image quality progressively until the size is within the desired limit
+    do {
+      compressedImage = await sharp(file.path)
+        .resize({
+          fit: "inside",
+          withoutEnlargement: true,
+          limitPixels: 1000000,
+        })
+        .jpeg({ quality })
+        .toBuffer();
+
+      quality -= 10; // Decrease quality by 10 for each iteration
+    } while (compressedImage.length > targetFileSize && quality >= 10);
+
+    if (compressedImage.length > targetFileSize) {
+      // Handle the case where the image cannot be compressed within the desired limit
+      return res
+        .status(400)
+        .json({ success: false, message: "Image size exceeds the limit" });
+    }
 
     // Write the compressed image buffer to a temporary file
     const tempFilePath = `temp_${file.filename}`;
