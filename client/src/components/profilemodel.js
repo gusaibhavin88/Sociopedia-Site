@@ -67,7 +67,6 @@ function ProfileModel(props) {
         e.target.name === "profileImage"
           ? setprofileImage(img)
           : setcoverImage(img);
-        console.log("uploaded");
       }
     }
   };

@@ -15,10 +15,10 @@ export const registerUser = (formdata) => async (dispatch) => {
   try {
     dispatch(registerStart());
     const response = await AuthApi.signUp(formdata);
-    console.log(response);
     dispatch(registerSuccess(response));
   } catch (error) {
-    dispatch(registerFail(error.response.data));
+    dispatch(registerFail(error.response));
+    console.log(error.response);
   }
 };
 

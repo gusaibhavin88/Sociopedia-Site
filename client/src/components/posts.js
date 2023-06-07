@@ -6,8 +6,8 @@ import { getAllPosts, getPostUrl } from "@/redux/action/postaction";
 const Posts = ({ location }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
+  const loading = useSelector((state) => state.auth.isLoading);
   const post = useSelector((state) => state.auth.post);
-  console.log(post);
   const posturl = useSelector((state) => state.auth.posturl);
 
   useEffect(() => {
@@ -75,7 +75,7 @@ const Posts = ({ location }) => {
               })
           ) : (
             <h1 style={{ color: "var(--gray)", alignSelf: "center" }}>
-              No Posts
+              {loading ? "Loading" : "No Posts"}
             </h1>
           )}
         </>
@@ -100,7 +100,7 @@ const Posts = ({ location }) => {
             })
           ) : (
             <h1 style={{ color: "var(--gray)", alignSelf: "center" }}>
-              No Posts
+              {loading ? "Loading" : "No Posts"}
             </h1>
           )}
         </>

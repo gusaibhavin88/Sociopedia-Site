@@ -64,7 +64,7 @@ const Sharepost = () => {
         setTimeout(() => {
           dispatch(getAllPosts(user._id));
           dispatch(getPostUrl());
-        }, 2000);
+        }, 4000);
       } catch (error) {
         console.log(error);
       }
@@ -113,6 +113,7 @@ const Sharepost = () => {
                 style={{ display: "none" }}
                 onChange={onImageChange}
                 name="attach"
+                accept="image/*"
               />
               <UilScenery
                 className={styles.icon}

@@ -131,6 +131,9 @@ const Auth = () => {
             >
               Already have an account. Login!
             </span>
+            <span style={{ color: "red", fontSize: "1rem" }}>
+              {error && error.data.message}
+            </span>
             <button type="submit" style={{ cursor: "pointer" }}>
               Submit
             </button>

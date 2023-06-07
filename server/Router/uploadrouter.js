@@ -1,6 +1,7 @@
 import express from "express";
 import multer from "multer";
 import cloudinary from "cloudinary";
+import sharp from "sharp";
 import { Usermodel } from "../Model/Usermodel.js";
 import { Postmodel } from "../Model/Postmodel.js";
 import fs from "fs";
@@ -38,9 +39,18 @@ router.post("/:_id", upload.single("image"), async (req, res) => {
         .json({ success: false, message: "User not found" });
     }
 
+    // Compress the image using sharp
+    const compressedImage = await sharp(file.path.toString())
+      .resize({ fit: "inside", withoutEnlargement: true, limitPixels: 1000000 })
+      .toBuffer();
+
+    // Write the compressed image buffer to a temporary file
+    const tempFilePath = `temp_${file.filename}`;
+    fs.writeFileSync(tempFilePath, compressedImage);
+
     // Upload the image file to Cloudinary
     await cloudinary.v2.uploader.upload(
-      file.path,
+      tempFilePath,
       { public_id: file.filename, folder: "Sociopedia" },
 
       async (error, result) => {
