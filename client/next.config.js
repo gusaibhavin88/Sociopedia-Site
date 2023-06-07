@@ -7,7 +7,7 @@ const nextConfig = {
       "http://localhost:5001",
       "res.cloudinary.com",
       "https://widget.cloudinary.com",
-      "https://sociopedia-site-client.onrender.com",
+      "https://sociopedia-site-qn6j.onrender.com",
     ],
   },
 };

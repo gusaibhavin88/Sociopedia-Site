@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://sociopedia-site-client.onrender.com",
+  baseURL: "https://sociopedia-site-qn6j.onrender.com",
 });
 
 export const signUp = (formdata) => API.post("/auth/register", formdata);
