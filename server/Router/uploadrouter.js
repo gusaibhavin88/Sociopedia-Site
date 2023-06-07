@@ -42,6 +42,7 @@ router.post("/:_id", upload.single("image"), async (req, res) => {
     // Compress the image using sharp
     const compressedImage = await sharp(file.path)
       .resize({ fit: "inside", withoutEnlargement: true, limitPixels: 1000000 })
+      .jpeg({ quality: 80 }) // Adjust quality as per your requirements
       .toBuffer();
 
     // Write the compressed image buffer to a temporary file
