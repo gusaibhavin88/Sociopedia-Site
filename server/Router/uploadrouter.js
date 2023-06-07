@@ -58,6 +58,9 @@ router.post("/:_id", upload.single("image"), async (req, res) => {
           res.status(500).json({ error: "Something went wrong" });
         }
 
+        // Remove the temporary file
+        fs.unlinkSync(tempFilePath);
+
         // Return the Cloudinary image URL
         if (file.filename === `${user._id}_Profile`) {
           user.profileUrl = result.secure_url;
