@@ -40,7 +40,7 @@ router.post("/:_id", upload.single("image"), async (req, res) => {
     }
 
     // Compress the image using sharp
-    const compressedImage = await sharp(file.path.toString())
+    const compressedImage = await sharp(file.path)
       .resize({ fit: "inside", withoutEnlargement: true, limitPixels: 1000000 })
       .toBuffer();
 
@@ -57,9 +57,6 @@ router.post("/:_id", upload.single("image"), async (req, res) => {
         if (error) {
           res.status(500).json({ error: "Something went wrong" });
         }
-
-        // Remove the temporary file
-        fs.unlinkSync(tempFilePath);
 
         // Return the Cloudinary image URL
         if (file.filename === `${user._id}_Profile`) {
@@ -80,6 +77,9 @@ router.post("/:_id", upload.single("image"), async (req, res) => {
           const filePath = directory + file;
           fs.rmSync(filePath, { recursive: true });
         });
+
+        // Remove the temporary file
+        fs.unlinkSync(tempFilePath);
 
         res
           .status(200)
